@@ -32,11 +32,19 @@ async function run() {
       const productsCollection = client.db('vehiVerseDB').collection('products')
 
       app.get('/products', async (req, res) => {
-          const brand = req.body
-          console.log(brand);
-        //   const query = { brand: brand }
+          
           const result = await productsCollection.find().toArray()
           res.send(result)
+      })
+
+      app.get('/products/:brand', async (req, res) => {
+          const brand = req.body
+          
+          const query = {brand: brand}
+          const result = await productsCollection.findOne(query)
+          res.send(result)
+          console.log(result);
+
       })
 
       app.post('/products', async (req, res) => {
