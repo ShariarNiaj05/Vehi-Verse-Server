@@ -26,34 +26,34 @@ const client = new MongoClient(uri, {
 
 const brands = [
   {
-      "id": 1,
-      "brandName": "Toyota",
-      "brandImage": "https://i.ibb.co/pdd2v1q/toyota.png"
+    "id": 1,
+    "brandName": "Toyota",
+    "brandImage": "https://i.ibb.co/pdd2v1q/toyota.png"
   },
   {
-      "id": 2,
-      "brandName": "Ford",
-      "brandImage": "https://i.ibb.co/1dZxwxR/Ford.jpg"
+    "id": 2,
+    "brandName": "Ford",
+    "brandImage": "https://i.ibb.co/1dZxwxR/Ford.jpg"
   },
   {
-      "id": 3,
-      "brandName": "BMW",
-      "brandImage": "https://i.ibb.co/hC6KX9j/BMW.jpg"
+    "id": 3,
+    "brandName": "BMW",
+    "brandImage": "https://i.ibb.co/hC6KX9j/BMW.jpg"
   },
   {
-      "id": 4,
-      "brandName": "Mercedes-Benz",
-      "brandImage": "https://i.ibb.co/VwyS5vt/Mercedes-Benz.jpg"
+    "id": 4,
+    "brandName": "Mercedes-Benz",
+    "brandImage": "https://i.ibb.co/VwyS5vt/Mercedes-Benz.jpg"
   },
   {
-      "id": 5,
-      "brandName": "Tesla",
-      "brandImage": "https://i.ibb.co/GPxqPGR/Tesla.jpg"
+    "id": 5,
+    "brandName": "Tesla",
+    "brandImage": "https://i.ibb.co/GPxqPGR/Tesla.jpg"
   },
   {
-      "id": 6,
-      "brandName": "Honda",
-      "brandImage": "https://i.ibb.co/9hCtpbr/Honda.png"
+    "id": 6,
+    "brandName": "Honda",
+    "brandImage": "https://i.ibb.co/9hCtpbr/Honda.png"
   }
 ]
 
@@ -63,19 +63,19 @@ const brandCollection = client.db('vehiVerseDB').collection('brand')
 async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
-      // await client.connect();
+    // await client.connect();
 
 
-  
+
 
     app.get('/products', async (req, res) => {
       const body = req.body
       console.log(body);
-          
-          const result = await productsCollection.find().toArray()
-          res.send(result)
+
+      const result = await productsCollection.find().toArray()
+      res.send(result)
     })
-    
+
     app.get('/products/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) }
@@ -83,27 +83,49 @@ async function run() {
       res.send(result)
     })
 
-  
-      app.post('/products', async (req, res) => {
-          const newProduct = req.body;
-          console.log(newProduct);
-          const result = await productsCollection.insertOne(newProduct)
-          console.log(result);
-          res.send(result)
-      })
-    
-    
-    
-    
-    
+
+    app.post('/products', async (req, res) => {
+      const newProduct = req.body;
+      console.log(newProduct);
+      const result = await productsCollection.insertOne(newProduct)
+      console.log(result);
+      res.send(result)
+    })
+
+
+    app.put('/products/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const options = { upsert: true }
+      const updatedProducts = req.body
+      const product = {
+        $set: {
+          image: updatedProducts.image,
+          name: updatedProducts.name,
+          brand: updatedProducts.brand,
+          type: updatedProducts.type,
+          price: updatedProducts.price,
+          description: updatedProducts.description,
+          rating: updatedProducts.rating,
+        }
+      }
+      const result = await productsCollection.updateOne(filter, product, options)
+      res.send(result)
+
+    })
+
+
+
+
+
     app.delete('/products/:id', async (req, res) => {
       const id = req.params.id;
-      const query = {_id: new ObjectId(id)}
+      const query = { _id: new ObjectId(id) }
       const result = await productsCollection.deleteOne(query)
       res.send(result)
 
     })
-      
+
 
 
 
@@ -127,12 +149,12 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
- 
-    res.send('VehiVerse server side is running')
+
+  res.send('VehiVerse server side is running')
 })
 
 
 
 app.listen(port, () => {
-    console.log(`VehiVerse server is running on port ${port}`);
+  console.log(`VehiVerse server is running on port ${port}`);
 })
