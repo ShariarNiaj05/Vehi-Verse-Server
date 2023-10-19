@@ -59,7 +59,7 @@ const brands = [
 
 const productsCollection = client.db('vehiVerseDB').collection('products')
 const brandCollection = client.db('vehiVerseDB').collection('brand')
-const carCollection = client.db('vehiVerseDB').collection('cart')
+const cartCollection = client.db('vehiVerseDB').collection('cart')
 
 async function run() {
   try {
@@ -80,7 +80,6 @@ async function run() {
       const result = await productsCollection.find(query).toArray()
       res.send(result)
 
-      console.log(query);
     })
 
 
@@ -96,6 +95,8 @@ async function run() {
       const result = await productsCollection.findOne(query)
       res.send(result)
     })
+
+    // app.post('')
 
 
     app.post('/products', async (req, res) => {
@@ -141,8 +142,32 @@ async function run() {
 
     })
 
+    app.post('/mycart', async (req, res) => {
+      const cartProduct = req.body;
+      console.log(cartProduct);
+      const result = await cartCollection.insertOne(cartProduct)
+      res.send(result)
+    })
+    app.get('/mycart', async (req, res) => {
+      const result = await cartCollection.find().toArray()
+      res.send(result)
+    })
 
 
+    app.post('/products/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await cartCollection.insertOne(query)
+      res.send(result)
+    })
+
+    app.delete('/mycart/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await cartCollection.deleteOne(query)
+      res.send(result)
+
+    })
 
 
     app.delete('/products/:id', async (req, res) => {
