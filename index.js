@@ -27,38 +27,39 @@ const client = new MongoClient(uri, {
 const brands = [
   {
     "id": 1,
-    "brandName": "Toyota",
+    "brandName": "toyota",
     "brandImage": "https://i.ibb.co/pdd2v1q/toyota.png"
   },
   {
     "id": 2,
-    "brandName": "Ford",
+    "brandName": "ford",
     "brandImage": "https://i.ibb.co/1dZxwxR/Ford.jpg"
   },
   {
     "id": 3,
-    "brandName": "BMW",
+    "brandName": "bmw",
     "brandImage": "https://i.ibb.co/hC6KX9j/BMW.jpg"
   },
   {
     "id": 4,
-    "brandName": "Mercedes",
+    "brandName": "mercedes",
     "brandImage": "https://i.ibb.co/VwyS5vt/Mercedes-Benz.jpg"
   },
   {
     "id": 5,
-    "brandName": "Tesla",
+    "brandName": "tesla",
     "brandImage": "https://i.ibb.co/GPxqPGR/Tesla.jpg"
   },
   {
     "id": 6,
-    "brandName": "Honda",
+    "brandName": "honda",
     "brandImage": "https://i.ibb.co/9hCtpbr/Honda.png"
   }
 ]
 
 const productsCollection = client.db('vehiVerseDB').collection('products')
 const brandCollection = client.db('vehiVerseDB').collection('brand')
+const carCollection = client.db('vehiVerseDB').collection('cart')
 
 async function run() {
   try {
@@ -79,7 +80,7 @@ async function run() {
       const result = await productsCollection.find(query).toArray()
       res.send(result)
 
-      console.log(result);
+      console.log(query);
     })
 
 
@@ -99,6 +100,18 @@ async function run() {
 
     app.post('/products', async (req, res) => {
       const newProduct = req.body;
+
+
+      const doc = {
+        brand: newProduct.brand,
+        id: newProduct.brand.id
+      }
+
+     const newProductBrand = await brandCollection.insertOne(doc)
+
+      console.log(newProductBrand);
+
+
 
       const result = await productsCollection.insertOne(newProduct)
       res.send(result)
