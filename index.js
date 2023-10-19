@@ -42,7 +42,7 @@ const brands = [
   },
   {
     "id": 4,
-    "brandName": "Mercedes-Benz",
+    "brandName": "Mercedes",
     "brandImage": "https://i.ibb.co/VwyS5vt/Mercedes-Benz.jpg"
   },
   {
@@ -66,12 +66,25 @@ async function run() {
     // await client.connect();
 
 
+    app.get('/', async (req, res) => {
+      // const body = req.body
+  
+     
+      res.send(brands)
+    })
+
+    app.get('/brand/:brandName', async (req, res) => {
+      const brandName = req.params.brandName;
+      const query = { brand: brandName };
+      const result = await productsCollection.find(query).toArray()
+      res.send(result)
+
+      console.log(result);
+    })
 
 
     app.get('/products', async (req, res) => {
       const body = req.body
-      console.log(body);
-
       const result = await productsCollection.find().toArray()
       res.send(result)
     })
@@ -86,10 +99,11 @@ async function run() {
 
     app.post('/products', async (req, res) => {
       const newProduct = req.body;
-      console.log(newProduct);
+
       const result = await productsCollection.insertOne(newProduct)
-      console.log(result);
       res.send(result)
+
+
     })
 
 
@@ -152,6 +166,9 @@ app.get('/', (req, res) => {
 
   res.send('VehiVerse server side is running')
 })
+
+
+    
 
 
 
