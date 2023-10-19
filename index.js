@@ -28,32 +28,32 @@ const brands = [
   {
     "id": 1,
     "brandName": "toyota",
-    "brandImage": "https://i.ibb.co/pdd2v1q/toyota.png"
+    "brandImage": "https://i.ibb.co/QQDrtJN/toyota0.png"
   },
   {
     "id": 2,
     "brandName": "ford",
-    "brandImage": "https://i.ibb.co/1dZxwxR/Ford.jpg"
+    "brandImage": "https://i.ibb.co/z7BbxS8/ford0.png"
   },
   {
     "id": 3,
     "brandName": "bmw",
-    "brandImage": "https://i.ibb.co/hC6KX9j/BMW.jpg"
+    "brandImage": "https://i.ibb.co/kKm4yhF/bmw0.png"
   },
   {
     "id": 4,
     "brandName": "mercedes",
-    "brandImage": "https://i.ibb.co/VwyS5vt/Mercedes-Benz.jpg"
+    "brandImage": "https://i.ibb.co/92QzBFz/mercedes0.png"
   },
   {
     "id": 5,
     "brandName": "tesla",
-    "brandImage": "https://i.ibb.co/GPxqPGR/Tesla.jpg"
+    "brandImage": "https://i.ibb.co/wWKpJbH/tesla0.png"
   },
   {
     "id": 6,
     "brandName": "honda",
-    "brandImage": "https://i.ibb.co/9hCtpbr/Honda.png"
+    "brandImage": "https://i.ibb.co/DKdRgwh/honda0.png"
   }
 ]
 
